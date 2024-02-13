@@ -22,9 +22,11 @@ export default class NewBill {
     const file = this.document.querySelector(`input[data-testid="file"]`)
       .files[0];
 
-    const formatAutorise = ["image/jpg", "image/png", "image/jpeg"]; //correction [Bug Hunt] - Bills
-    const formatfile = file.type; //correction [Bug Hunt] - Bills
-    let controlFormat = formatAutorise.includes(formatfile); //correction [Bug Hunt] - Bills
+    //correction [Bug Hunt] - Bills
+
+    const formatAutorise = ["image/jpg", "image/png", "image/jpeg"];
+    const formatfile = file.type;
+    let controlFormat = formatAutorise.includes(formatfile);
 
     if (controlFormat) {
       //correction [Bug Hunt] - Bills
