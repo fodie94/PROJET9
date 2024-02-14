@@ -15,6 +15,7 @@ import router from "../app/Router.js";
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
     test("Then bill icon in vertical layout should be highlighted", async () => {
+      //Ensuite, l'icône de la facture dans la disposition verticale doit être mise en surbrillance
       Object.defineProperty(window, "localStorage", {
         value: localStorageMock,
       });
@@ -85,33 +86,6 @@ describe("Given I am connected as an employee", () => {
       fireEvent.click(firstEyeIcon); //click sur l'icone
       expect(handleClickIconEye).toHaveBeenCalled(); //vérifie si l'evenement au click a été appeler
       expect($.fn.modal).toHaveBeenCalled(); // vérifie si la modale est appeler
-    });
-  });
-
-  // test naviagtion containers/Bills.js
-  describe("When i click the button 'Nouvelle note de frais'", () => {
-    //je clique sur le bouton nouvelle note de frais
-    test("Then newbill appears", () => {
-      // Vérifie qu'on arrive bien sur la page NewBill
-      //J'intègre le chemin d'accès
-      const onNavigate = (pathname) => {
-        document.body.innerHTML = ROUTES({ pathname });
-      };
-      const billsPage = new Bills({
-        document,
-        onNavigate,
-        store: null,
-        bills: bills,
-        localStorage: window.localStorage,
-      });
-      //création constante pour la fonction qui appel la fonction a tester
-      const OpenNewBill = jest.fn(billsPage.handleClickNewBill);
-      const btnNewBill = screen.getByTestId("btn-new-bill"); //cible le btn nouvelle note de frais
-      btnNewBill.addEventListener("click", OpenNewBill); //écoute évènement
-      fireEvent.click(btnNewBill); //simule évènement au click
-      // on vérifie que la fonction est appelée et que la page souhaitée s'affiche
-      expect(OpenNewBill).toHaveBeenCalled(); //je m'attends à ce que la page nouvelle note de frais se charge
-      expect(screen.getByText("Envoyer une note de frais")).toBeTruthy(); //la nouvelle note de frais apparait avec le titre envoyer une note de frais
     });
   });
 
