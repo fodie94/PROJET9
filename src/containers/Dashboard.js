@@ -154,9 +154,17 @@ export default class {
       this.counter++;
     }
 
+    // bills.forEach((bill) => {
+    //   $(`#open-bill${bill.id}`).click((e) =>
+    //     this.handleEditTicket(e, bill, bills)
+    //   );
+    // });
+
+    //[Bug Hunt] - Dashboard
+
     bills.forEach((bill) => {
       $(`#open-bill${bill.id}`)
-        .off("click") //[Bug Hunt] - Dashboard
+        .off("click")
         .click((e) => this.handleEditTicket(e, bill, bills));
     });
 
