@@ -36,17 +36,20 @@ describe("Given I am connected as an employee", () => {
       expect(windowIcon.classList.contains("active-icon")).toBe(true); //Ajout de la mention expect
     });
     test("Then bills should be ordered from earliest to latest", () => {
-      document.body.innerHTML = BillsUI({ data: bills });
+      //  document.body.innerHTML = BillsUI({ data: bills });
+      document.body.innerHTML = BillsUI({
+        data: bills.sort((a, b) => new Date(b.date) - new Date(a.date)),
+      });
       const dates = screen
         .getAllByText(
           /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i
         )
         .map((a) => a.innerHTML);
-
+      console.log(dates);
       // correction [Bug report] - Bills
 
-      // const antiChrono = (a, b) => ((a < b) ? 1 : -1)
-      const antiChrono = (a, b) => a - b;
+      const antiChrono = (a, b) => (a < b ? 1 : -1);
+      // const antiChrono = (a, b) => a - b;
       const datesSorted = [...dates].sort(antiChrono);
       console.log(datesSorted);
       expect(dates).toEqual(datesSorted);
