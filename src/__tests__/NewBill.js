@@ -86,7 +86,7 @@ describe("Given I am connected as an employee", () => {
         const handleSubmit = jest.fn((e) => newBill.handleSubmit(e)); // Envoi du formulaire
 
         const form = screen.getByTestId("form-new-bill");
-        form.addEventListener("submit", handleSubmit);
+        form.addEventListener("submit", handleSubmit); //surveil un événement au click sur l'oeil
         fireEvent.submit(form);
 
         expect(handleSubmit).toHaveBeenCalled(); // Vérification de l envoi du formulaire

@@ -36,10 +36,7 @@ describe("Given I am connected as an employee", () => {
       expect(windowIcon.classList.contains("active-icon")).toBe(true); //Ajout de la mention expect
     });
     test("Then bills should be ordered from earliest to latest", () => {
-      //  document.body.innerHTML = BillsUI({ data: bills });
-      document.body.innerHTML = BillsUI({
-        data: bills.sort((a, b) => new Date(b.date) - new Date(a.date)),
-      });
+      document.body.innerHTML = BillsUI({ data: bills });
       const dates = screen
         .getAllByText(
           /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i
@@ -49,10 +46,28 @@ describe("Given I am connected as an employee", () => {
       // correction [Bug report] - Bills
 
       const antiChrono = (a, b) => (a < b ? 1 : -1);
-      // const antiChrono = (a, b) => a - b;
       const datesSorted = [...dates].sort(antiChrono);
       console.log(datesSorted);
       expect(dates).toEqual(datesSorted);
+    });
+  });
+
+  // test d'integration get bill
+  describe("When I get bills", () => {
+    //Quand je demande de récupérer des factures
+    test("Then it should render bills", async () => {
+      //Ensuite, il devrait afficher les factures
+      const bills = new Bills({
+        //récupération des factures dans le store
+        document,
+        onNavigate,
+        store: mockStore,
+        localStorage: window.localStorage,
+      });
+      const getBills = jest.fn(() => bills.getBills()); //simulation du click
+      const value = await getBills(); //vérification
+      expect(getBills).toHaveBeenCalled(); //on test si methode est utilisé
+      expect(value.length).toBe(4); //test si la longeur du tableau est a 4 du store.js
     });
   });
 
@@ -89,25 +104,6 @@ describe("Given I am connected as an employee", () => {
       fireEvent.click(firstEyeIcon); //click sur l'icone
       expect(handleClickIconEye).toHaveBeenCalled(); //vérifie si l'evenement au click a été appeler
       expect($.fn.modal).toHaveBeenCalled(); // vérifie si la modale est appeler
-    });
-  });
-
-  // test d'integration get bill
-  describe("When I get bills", () => {
-    //Quand je demande de récupérer des factures
-    test("Then it should render bills", async () => {
-      //Ensuite, il devrait afficher les factures
-      const bills = new Bills({
-        //récupération des factures dans le store
-        document,
-        onNavigate,
-        store: mockStore,
-        localStorage: window.localStorage,
-      });
-      const getBills = jest.fn(() => bills.getBills()); //simulation du click
-      const value = await getBills(); //vérification
-      expect(getBills).toHaveBeenCalled(); //on test si methode est utilisé
-      expect(value.length).toBe(4); //test si la longeur du tableau est a 4 du store.js
     });
   });
 });
